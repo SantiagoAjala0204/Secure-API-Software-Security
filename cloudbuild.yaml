@@ -1,0 +1,14 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/main-mechanism-401303/my-app', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/main-mechanism-401303/my-app']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'apirest'
+      - '--image=gcr.io/main-mechanism-401303/my-app'  # Include '=' for the argument value
+      - '--platform'
+      - 'managed'
